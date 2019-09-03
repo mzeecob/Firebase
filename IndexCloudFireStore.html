@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<div>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="table_body">
+
+        </tbody>
+    </table>
+
+    <button id="btn" onclick="add()">Add</button>
+
+</div>
+
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
+<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+<script src="bower_components/firebaseui/dist/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css" />
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyAeKCzgTrg37b3Xe3NY5vI5Yj3wZv-Gpls",
+        authDomain: "fir-web-learn-4f88a.firebaseapp.com",
+        databaseURL: "https://fir-web-learn-4f88a.firebaseio.com",
+        projectId: "fir-web-learn-4f88a",
+        storageBucket: "fir-web-learn-4f88a.appspot.com",
+        messagingSenderId: "988081361429",
+        appId: "1:988081361429:web:80253a1fa659dc7e"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>
+<script src="indexCloudFireStore.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</body>
+</html>

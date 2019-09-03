@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="table_body">
+
+        </tbody>
+
+
+    </table>
+</div>
+
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+<!--<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>-->
+<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-database.js"></script>
+
+
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyAeKCzgTrg37b3Xe3NY5vI5Yj3wZv-Gpls",
+        authDomain: "fir-web-learn-4f88a.firebaseapp.com",
+        databaseURL: "https://fir-web-learn-4f88a.firebaseio.com",
+        projectId: "fir-web-learn-4f88a",
+        storageBucket: "",
+        messagingSenderId: "988081361429",
+        appId: "1:988081361429:web:80253a1fa659dc7e"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="indexRealTimeDataBase.js"></script>
+</body>
+</html>
