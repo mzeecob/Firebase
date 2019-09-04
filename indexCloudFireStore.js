@@ -1,9 +1,9 @@
 
 // make auth, authUi and firebase reference
+
+var db = firebase.firestore();
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 var auth = new firebase.auth();
-var db = firebase.firestore();
-
 
 
 //authentication login
@@ -25,15 +25,11 @@ var uiConfig = {
             // or whether we leave that to developer to handle.
             return true;
         },
-        uiShown: function() {
-            // The widget is rendered.
-            // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
-        }
+
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
-    signInSuccessUrl: '',
+    signInSuccessUrl: 'indexCloudFireStore.html',
     signInOptions: [
         // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -75,14 +71,7 @@ signupForm.addEventListener('submit', (e) => {
     });
 });
 
-// logout
-const logout = document.getElementById('logout');
-logout.addEventListener('click', (e) => {
-    e.preventDefault();
-    auth.signOut().then(() => {
-        console.log("User Signed out");
-    });
-});
+
 
 // login
 const loginForm = document.getElementById('login-form');
@@ -97,8 +86,8 @@ loginForm.addEventListener('submit', (e) => {
     auth.signInWithEmailAndPassword(email, password).then((cred) => {
         alert("you are logged in ");
         console.log(cred.user);
-        // redirectCallback()
-        // close the signup modal & reset form
+        window.location.href = "indexCloudFireStore.html";
+        // close the signin modal & reset form
         const modal = document.getElementById('modal-login');
         M.Modal.getInstance(modal).close();
         loginForm.reset();
@@ -111,52 +100,6 @@ loginForm.addEventListener('submit', (e) => {
 
 
 
-// listen for auth status changes
-auth.onAuthStateChanged(user => {
-    console.log(user)
-    // if (user) {
-    //     user.getIdTokenResult().then(idTokenResult => {
-    //         user.admin = idTokenResult.claims.admin;
-    //         setupUI(user);
-    //     });
-    //     db.collection('guides').onSnapshot(snapshot => {
-    //         setupGuides(snapshot.docs);
-    //     }, err => console.log(err.message));
-    // } else {
-    //     setupUI();
-    //     setupGuides([]);
-    // }
-});
-
-
-
-// list function
-db.collection("Users").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        var name = doc.data().Name;
-        var email = doc.data().Email;
-        var id  = doc.id;
-
-        $("#table_body").append("<tr id="+ id +">" +
-            "<td>" + name + "</td>" +
-            "<td>"+ email +"</td>" +
-            "<td>" + "<button onclick='dlt(this)' value = "+ id +">" + "remove" + "</button>" +"</td>" +
-            "</tr>"
-        );
-    });
-});
-
-//delete from database
-function dlt(event){
-    var id = event.value;
-    console.log(id);
-    db.collection("Users").doc(id).delete().then(function() {
-        console.log("Document successfully deleted!");
-        document.getElementById(id).remove();
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-}
 
 //delete from guid
 function dlt1(event){
@@ -170,27 +113,5 @@ function dlt1(event){
     });
 }
 
-// create new guide
-const createForm = document.getElementById('create-form');
-createForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    db.collection('Guides').add({
-        title: createForm.title.value,
-        content: createForm.content.value
-    }).then(function(docRef) {
-        var doc = db.collection("Guides").doc(docRef.id);
-        doc.get().then(doc => {
-            $(".guides").append("<li id=" + doc.id + ">" +
-                "<div class='collapsible-header grey lighten-4'>" + doc.data().title + "</div>" +
-                "<div class='collapsible-body white'>" + doc.data().content + "</div>" +
-                "<td>" + "<button class='collapsible-body white' style='height: 20px' onclick='dlt1(this)' value = " + doc.id + ">" + "remove" + "</button>" + "</td>" +
-                "</li>"
-            );
-        });
-        const modal = document.getElementById('modal-create');
-        M.Modal.getInstance(modal).close();
-        createForm.reset();
-    }).catch(err => {
-        console.log(err.message);
-    });
-});
+
+
