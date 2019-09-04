@@ -1,7 +1,12 @@
 
-//authentication login
+// make auth, authUi and firebase reference
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
-var auth = new firebase.auth.AuthProvider(firebase.auth());
+var auth = new firebase.auth();
+var db = firebase.firestore();
+
+
+
+//authentication login
 ui.start('#firebaseui-auth-container', {
     signInOptions: [
         {
@@ -28,7 +33,7 @@ var uiConfig = {
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
-    signInSuccessUrl: 'indexRealTimeDatabase.html',
+    signInSuccessUrl: '',
     signInOptions: [
         // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -49,20 +54,24 @@ ui.start('#firebaseui-auth-container', uiConfig);
 //authentication login
 
 // signup
-const signupForm = document.querySelector('#signup-form');
+const signupForm = document.getElementById('signup-form');
 signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     // get user info
-    const email = signupForm['signup-email'].value;
-    const password = signupForm['signup-password'].value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
 
     // sign up the user
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
+        alert("successfully signed up");
         // close the signup modal & reset form
-        const modal = document.querySelector('#modal-signup');
+        const modal = document.getElementById('modal-signup');
         M.Modal.getInstance(modal).close();
         signupForm.reset();
+    }).catch(function(error) {
+        alert("Sing up failed \n" + error);
+        console.error("Error removing document: ", error);
     });
 });
 
@@ -70,32 +79,55 @@ signupForm.addEventListener('submit', (e) => {
 const logout = document.getElementById('logout');
 logout.addEventListener('click', (e) => {
     e.preventDefault();
-    auth.signOut();
+    auth.signOut().then(() => {
+        console.log("User Signed out");
+    });
 });
 
 // login
-const loginForm = document.querySelector('#login-form');
+const loginForm = document.getElementById('login-form');
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     // get user info
-    const email = loginForm['login-email'].value;
-    const password = loginForm['login-password'].value;
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
 
     // log the user in
     auth.signInWithEmailAndPassword(email, password).then((cred) => {
+        alert("you are logged in ");
+        console.log(cred.user);
+        // redirectCallback()
         // close the signup modal & reset form
-        const modal = document.querySelector('#modal-login');
+        const modal = document.getElementById('modal-login');
         M.Modal.getInstance(modal).close();
         loginForm.reset();
+    }).catch(function(error) {
+        alert("login failed \n" + error);
+        console.error("Error removing document: ", error);
     });
 
 });
 
 
 
-// declare database
-var db = firebase.firestore();
+// listen for auth status changes
+auth.onAuthStateChanged(user => {
+    console.log(user)
+    // if (user) {
+    //     user.getIdTokenResult().then(idTokenResult => {
+    //         user.admin = idTokenResult.claims.admin;
+    //         setupUI(user);
+    //     });
+    //     db.collection('guides').onSnapshot(snapshot => {
+    //         setupGuides(snapshot.docs);
+    //     }, err => console.log(err.message));
+    // } else {
+    //     setupUI();
+    //     setupGuides([]);
+    // }
+});
+
 
 
 // list function
